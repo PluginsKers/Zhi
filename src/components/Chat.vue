@@ -248,12 +248,12 @@ onUnmounted(() => {
 			</template>
 		</div>
 	</div>
-	<div class="fixed flex justify-center items-center w-full bottom-5">
-		<div class="flex flex-row justify-between items-center pr-2 rounded-lg bg-gray-100 focus:bg-gray-50 ring-2 ring-gray-200 focus:ring-gray-200">
-			<input v-model="inputMessage" @keyup.enter="sendMessage(inputMessage)" :placeholder="isConnected ? '输入消息' : '请稍等'"
-			class="p-3 focus:outline-none  disabled:cursor-not-allowed"
-			:disabled="!isConnected" />
-			<button @click="sendMessage(inputMessage)" :disabled="!isConnected" class="cursor-pointer bg-black text-white flex items-center justify-center w-8 h-8 rounded-full disabled:opacity-50 disabled:cursor-not-allowed">
+        <div class="fixed flex justify-center items-center w-full bottom-5">
+                <div class="flex flex-row justify-between items-center pr-2 rounded-none bg-black border-2 border-green-500">
+                        <input v-model="inputMessage" @keyup.enter="sendMessage(inputMessage)" :placeholder="isConnected ? '输入消息' : '请稍等'"
+                        class="p-3 focus:outline-none bg-black text-green-500 disabled:cursor-not-allowed"
+                        :disabled="!isConnected" />
+                        <button @click="sendMessage(inputMessage)" :disabled="!isConnected" class="cursor-pointer bg-black text-green-500 flex items-center justify-center w-8 h-8 border-l-2 border-green-500 disabled:opacity-50 disabled:cursor-not-allowed">
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
 					<path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
 				</svg>

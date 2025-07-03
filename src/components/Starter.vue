@@ -4,8 +4,8 @@ const emit = defineEmits(['start'])
 
 <template>
 	<div style="will-change: auto; transform: none;">
-		<button @click="emit('start')"
-			class="cursor-pointer justify-center whitespace-nowrap rounded-md text-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-black text-white hover:bg-black/90 h-10 px-5 py-2 z-50 flex items-center gap-2">
+                <button @click="emit('start')"
+                        class="cursor-pointer justify-center whitespace-nowrap rounded-none text-lg font-normal border-2 border-green-500 bg-black text-green-500 hover:bg-black/80 h-10 px-5 py-2 flex items-center gap-2">
 			<span>
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
 					stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
