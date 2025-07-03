@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+body {
+  font-family: 'VT323', 'ZCOOL QingKe HuangYou', monospace;
+  background-color: #000;
+  color: #0f0;
+}
+
+input,
+button {
+  font-family: 'VT323', 'ZCOOL QingKe HuangYou', monospace;
+}
+
+input::placeholder {
+  color: #0f0;
+}

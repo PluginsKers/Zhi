@@ -17,7 +17,7 @@ const handleDisconnect = () => {
 <template>
   <div class="grow flex flex-col">
     <div class="relative grow flex flex-col mx-auto w-full overflow-hidden h-[0px]">
-      <div class="fixed inset-0 p-4 flex items-center justify-center bg-white">
+      <div class="fixed inset-0 p-4 flex items-center justify-center bg-black">
         <Starter v-if="!showChat" @start="handleStart" />
         <Chat v-else @disconnect="handleDisconnect" />
       </div>
