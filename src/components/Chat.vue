@@ -237,30 +237,40 @@ onUnmounted(() => {
 </script>
 
 <template>
-	<div class="h-full w-full">
-		<div class="w-full h-full overflow-y-auto">
-		<div v-for="(message, index) in messages" :key="index">
-			<template v-if="message.type === 'llm'">
-				<span v-if="message.emotion" class="">{{ message.text }}</span>
-			</template>
-			<template v-else-if="message.type === 'tts' && message.state === 'sentence_start'">
-				<div class="">{{ message.text }}</div>
-			</template>
-		</div>
-	</div>
-	<div class="fixed flex justify-center items-center w-full bottom-5">
-		<div class="flex flex-row justify-between items-center pr-2 rounded-lg bg-gray-100 focus:bg-gray-50 ring-2 ring-gray-200 focus:ring-gray-200">
-			<input v-model="inputMessage" @keyup.enter="sendMessage(inputMessage)" :placeholder="isConnected ? '输入消息' : '请稍等'"
-			class="p-3 focus:outline-none  disabled:cursor-not-allowed"
-			:disabled="!isConnected" />
-			<button @click="sendMessage(inputMessage)" :disabled="!isConnected" class="cursor-pointer bg-black text-white flex items-center justify-center w-8 h-8 rounded-full disabled:opacity-50 disabled:cursor-not-allowed">
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-					<path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-				</svg>
-			</button>
-		</div>
-	</div>
-	</div>
+  <div class="h-full w-full flex flex-col max-w-2xl mx-auto">
+    <div class="flex-1 overflow-y-auto p-4 space-y-2">
+      <div v-for="(message, index) in messages" :key="index">
+        <template v-if="message.type === 'llm'">
+          <span v-if="message.emotion">{{ message.text }}</span>
+        </template>
+        <template v-else-if="message.type === 'tts' && message.state === 'sentence_start'">
+          <div>{{ message.text }}</div>
+        </template>
+      </div>
+    </div>
+    <div class="sticky bottom-0 p-4 bg-white">
+      <div class="flex items-center gap-2 rounded-lg bg-gray-100 ring-2 ring-gray-200 focus-within:ring-black">
+        <input
+          v-model="inputMessage"
+          @keyup.enter="sendMessage(inputMessage)"
+          :placeholder="isConnected ? '输入消息' : '请稍等'"
+          class="flex-1 p-3 bg-transparent focus:outline-none disabled:cursor-not-allowed"
+          :disabled="!isConnected"
+        />
+        <button
+          @click="sendMessage(inputMessage)"
+          :disabled="!isConnected"
+          class="cursor-pointer bg-black text-white flex items-center justify-center w-8 h-8 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path
+              d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style></style>

@@ -15,12 +15,10 @@ const handleDisconnect = () => {
 </script>
 
 <template>
-  <div class="grow flex flex-col">
-    <div class="relative grow flex flex-col mx-auto w-full overflow-hidden h-[0px]">
-      <div class="fixed inset-0 p-4 flex items-center justify-center bg-white">
-        <Starter v-if="!showChat" @start="handleStart" />
-        <Chat v-else @disconnect="handleDisconnect" />
-      </div>
+  <div class="min-h-screen flex flex-col">
+    <div class="flex-grow flex items-center justify-center p-4 bg-white">
+      <Starter v-if="!showChat" @start="handleStart" />
+      <Chat v-else @disconnect="handleDisconnect" />
     </div>
   </div>
 </template>
