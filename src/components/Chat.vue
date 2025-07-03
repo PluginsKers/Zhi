@@ -249,7 +249,9 @@ onUnmounted(() => {
       </div>
     </div>
     <div class="sticky bottom-0 p-4 bg-white">
-      <div class="flex items-center gap-2 rounded-lg bg-gray-100 ring-2 ring-gray-200 focus-within:ring-black">
+      <div
+        class="flex items-center gap-2 p-2 rounded-lg bg-gray-100 ring-2 ring-gray-200 focus-within:ring-black"
+      >
         <input
           v-model="inputMessage"
           @keyup.enter="sendMessage(inputMessage)"
