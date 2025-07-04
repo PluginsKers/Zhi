@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, computed, defineEmits } from 'vue'
+import { onMounted, onUnmounted, ref, computed, defineEmits, nextTick } from 'vue'
 import { OpusDecoder } from 'opus-decoder'
 import type { OpusDecoderSampleRate } from 'opus-decoder'
 
@@ -29,6 +29,8 @@ const ws = ref<WebSocket | null>(null)
 const messages = ref<ChatMessage[]>([])
 const error = ref<string | null>(null)
 const inputMessage = ref('')
+const showInput = ref(false)
+const inputRef = ref<HTMLInputElement | null>(null)
 const audioContext = ref<AudioContext | null>(null)
 const isPlaying = ref(false)
 const opusDecoder = ref<InstanceType<typeof OpusDecoder> | null>(null)
@@ -196,13 +198,19 @@ const debounce = (fn: Function, delay: number) => {
 }
 
 const throttle = (fn: Function, limit: number) => {
-	return (...args: any[]) => {
-		const now = Date.now()
-		if (now - lastSendTime.value >= limit) {
-			fn(...args)
-			lastSendTime.value = now
-		}
-	}
+        return (...args: any[]) => {
+                const now = Date.now()
+                if (now - lastSendTime.value >= limit) {
+                        fn(...args)
+                        lastSendTime.value = now
+                }
+        }
+}
+
+const openInput = async () => {
+        showInput.value = true
+        await nextTick()
+        inputRef.value?.focus()
 }
 
 const sendMessage = debounce(throttle((message: string) => {
@@ -221,8 +229,9 @@ const sendMessage = debounce(throttle((message: string) => {
 		text: message,
 		source: 'text'
 	}
-	ws.value!.send(JSON.stringify(payload))
-	inputMessage.value = ''
+        ws.value!.send(JSON.stringify(payload))
+        inputMessage.value = ''
+        showInput.value = false
 }, 1000), 500)
 
 onMounted(() => {
@@ -249,17 +258,23 @@ onUnmounted(() => {
 		</div>
 	</div>
         <div class="fixed flex justify-center items-center w-full bottom-5">
-                <div class="flex flex-row justify-between items-center pr-2 rounded-none bg-black border-2 border-green-500">
-                        <input v-model="inputMessage" @keyup.enter="sendMessage(inputMessage)" :placeholder="isConnected ? '输入消息' : '请稍等'"
-                        class="p-3 focus:outline-none bg-black text-green-500 disabled:cursor-not-allowed"
+                <button v-if="!showInput" @click="openInput" class="p-3 bg-black/70 border-2 border-green-500 rounded-full text-green-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M17.414 2.586a2 2 0 00-2.828 0L6 11.172V14h2.828l8.586-8.586a2 2 0 000-2.828z" />
+                                <path fill-rule="evenodd" d="M5 18a1 1 0 001 1h3a1 1 0 001-1v-1H5v1z" clip-rule="evenodd" />
+                        </svg>
+                </button>
+                <div v-else class="flex flex-row w-11/12 max-w-md justify-between items-center pr-2 rounded-none bg-black/70 border-2 border-green-500">
+                        <input ref="inputRef" v-model="inputMessage" @keyup.enter="sendMessage(inputMessage)" :placeholder="isConnected ? '输入消息' : '请稍等'"
+                        class="flex-grow p-3 focus:outline-none bg-transparent text-green-500 placeholder-green-500 disabled:cursor-not-allowed"
                         :disabled="!isConnected" />
-                        <button @click="sendMessage(inputMessage)" :disabled="!isConnected" class="cursor-pointer bg-black text-green-500 flex items-center justify-center w-8 h-8 border-l-2 border-green-500 disabled:opacity-50 disabled:cursor-not-allowed">
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-					<path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-				</svg>
-			</button>
-		</div>
-	</div>
+                        <button @click="sendMessage(inputMessage)" :disabled="!isConnected" class="cursor-pointer bg-transparent text-green-500 flex items-center justify-center w-8 h-8 border-l-2 border-green-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                                </svg>
+                        </button>
+                </div>
+        </div>
 	</div>
 </template>
 
